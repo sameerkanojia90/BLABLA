@@ -1,0 +1,183 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+}
+
+    /* background-color: rgb(58, 225, 255); */
+
+
+.Login-box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.login-card{
+    height: 120px;
+    padding: 10px;
+    margin-top: 60px;
+    border-color:rgb(0, 195, 221) ;
+}
+
+
+
+
+.header{
+    height: 3.5rem;
+background-color: rgb(58, 225, 255)
+}
+
+
+
+.first-head{
+    font-size: 25px;
+    font-weight: bold;
+    color: rgb(247, 248, 255);
+    padding: 20px;
+}
+
+
+
+.signup {
+
+    height: 40px;
+    width: 100px;
+    background-color: black;
+    color: white;
+    border: 3px solid white;
+    border-radius: 10px;
+cursor: pointer;
+
+}
+
+.login {
+    margin-left: 20px;
+    height: 40px;
+    width: 120px;
+    color: black;
+    border: 3px solid rgb(0, 0, 0);
+    border-radius: 10px;
+cursor: pointer;
+
+
+}
+
+
+
+
+
+
+
+.Signup-container{
+   
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+
+
+}
+.signup-heading{
+    text-align: center;
+}
+.Signup-box{
+    padding-top: 10px;
+    border: 2px solid black;
+margin: 30px;    
+}
+.input-groups{
+    padding-top:4px;
+
+
+
+}
+.input-label{
+    font-size: 16px;
+}
+.signup-button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.signup-btn{
+    height: 30px;
+    width: 50%;
+    margin:20px;
+    border: 1.4px solid black;
+    border-radius: 5px;
+background-color: rgb(58, 225, 255)}
+
+
+
+.signup-btn:hover{
+    background-color: rgb(94, 0, 102);
+    border: 1.4px solid rgb(248, 245, 245);
+    color: white;
+}
+
+
+
+.log-header{
+    height: 3.5rem;
+    background-color: rgb(58, 225, 255);
+
+}
+.log-head{
+    font-size: 25px;
+    font-weight: bold;
+    color: rgb(247, 248, 255);
+    padding: 20px;
+}
+
+.loginpage-card{
+    height: 250px;
+    width: 30%;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid black;
+
+}
+
+.sig-header{
+    height: 3.5rem;
+    background-color: rgb(58, 225, 255);}
+
+    .sigheadingm{
+         font-size: 25px;
+    font-weight: bold;
+    color: rgb(247, 248, 255);
+    padding: 20px;
+    }
+
+    .first-div{
+         height: 3.5rem;
+    background-color: rgb(58, 225, 255);
+    display: flex;
+    justify-content: space-between;
+
+    }
+    .LOGOUT{
+        margin: 20px;
+    }
+    .Log-out{
+        background-color: white;
+        color: black;
+        padding: 4px;
+        height: 29px;
+        width: 100%;
+    }
+    .Log-out :hover{
+        background-color: blue;
+    }
+    .main-head{
+        font-size: 25px;
+    font-weight: bold;
+    color: rgb(0, 0, 0);
+    padding: 20px;
+    }
+
+
