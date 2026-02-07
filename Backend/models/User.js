@@ -1,38 +1,50 @@
 const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema({
-    name : {
-        type :String,
-        require : true,
+    name: {
+        type: String,
+        require: true,
     },
-    email :{
-        type:String,
-        required:true,
+    email: {
+        type: String,
+        required: true,
     },
-    password : {
-        type : String,
-        required :true,
+    password: {
+        type: String,
+        required: true,
     },
-    phoneNo : {
-        type :Number,
-        require :true,
+    phoneNo: {
+        type: Number,
+        require: true,
+       
+
+    },
+    resetpassword :{
+         type:String,
+         default:""
+    },
+    expirepassword : {
+        type : Date,
+        default : Date.now
 
     },
 
-   cardetails: {
-    carName: {
-        type: String,
-        required: true
+
+    cardetails: {
+        carName: {
+            type: String,
+            required: true
+        },
+        carNumber: {
+            type: String,
+            required: true
+        }
     },
-    carNumber: {
+    ratingOverall: {
         type: String,
-        required: true
-    }
-},
-ratingOverall : {
-    type : String,
-    required : true,
-}
+        required: true,
+    },
+
 
 
 

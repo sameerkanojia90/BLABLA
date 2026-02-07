@@ -2,9 +2,13 @@ const express = require("express");
 const authController = require("../controllers/authController");
 const router = express.Router();
 const isAuthenticated = require("../middleware/Auth");
+const bcrypt = require("bcrypt");
+const User = require("../models/User");
 
 router.post("/signup", authController.signup);
 router.post("/login",authController.login);
+router.post("/forgetpassword", authController.forgetPassword)
+router.post("/resetpassword/:token",authController.resetPassword )
 
 router.get("/dashboard", isAuthenticated, (req, res) => {
     res.json({
@@ -24,4 +28,6 @@ router.get("/logout", (req, res) => {
     });
 });
  
+
+
 module.exports = router;

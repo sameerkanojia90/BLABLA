@@ -1,5 +1,4 @@
 import React from "react";
-import { Card } from "antd";
 import { useNavigate } from "react-router-dom";
 
 function Firstppage() {
@@ -7,13 +6,13 @@ function Firstppage() {
 
   return (
     <>
-    <header className="header">
-      <h2 className="first-head"> BlaBlacar</h2>
-    </header>
-     
-      <div className="Login-box">
-    
-      <Card className="login-card">
+      <div className="first-header">
+        <div className="heading">
+          <h2 className="first-head"> BlaBlacar</h2>
+        </div>
+
+
+
         <div className="buttons">
           <button
             className="signup"
@@ -29,8 +28,7 @@ function Firstppage() {
             Login
           </button>
         </div>
-      </Card>
-    </div>
+      </div>
     </>
   );
 }

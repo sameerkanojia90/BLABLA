@@ -6,20 +6,24 @@ import Firstppage from './pages/Firstppage';
 import Loginpage from './pages/Loginpage';
 import Signuppage from './pages/Signuppage';
 import Dashboard from '../Components/Dashboard';
+import Forgetpassword from '../Components/Forgetpassword';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import ResetPassword from '../Components/Resetpassword';
 
 function App() {
   return (
     <>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Firstppage />} />
-        <Route path="/login" element={<Loginpage />} />
-        <Route path="/signup" element={<Signuppage />} />
-        <Route path="/dashboard" element={<Dashboard/>}/>
-        
-      </Routes>
-    </BrowserRouter>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Firstppage />} />
+          <Route path="/login" element={<Loginpage />} />
+          <Route path="/signup" element={<Signuppage />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path='/forgetpassword' element={<Forgetpassword />} />
+          <Route path='/resetpassword/:token' element={<ResetPassword/>}/>
+
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }

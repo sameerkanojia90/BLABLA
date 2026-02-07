@@ -81,7 +81,7 @@ function Loginpage() {
           <div style={{ textAlign: "right", marginBottom: "10px" }}>
   <span
     style={{ color: "blue", cursor: "pointer" }}
-    onClick={() => navigate("/forgot-password")}
+    onClick={() => navigate("/forgetpassword")}
   >
     Forgot Password?
   </span>
