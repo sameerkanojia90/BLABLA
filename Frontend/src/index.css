@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 * {
     margin: 0;
     padding: 0;
@@ -99,7 +101,7 @@
     margin: 20px;
     border: 1.4px solid black;
     border-radius: 5px;
-    background-color: rgb(58, 225, 255)
+    background-color: rgb(58, 225, 255);
 }
 
 
@@ -114,7 +116,7 @@
 
 .log-header {
     height: 3.5rem;
-    background-color: rgb(58, 225, 255);
+    background-color: #001529;
 
 }
 
@@ -135,7 +137,7 @@
 
 .sig-header {
     height: 3.5rem;
-    background-color: rgb(58, 225, 255);
+    background-color: #001529;
 }
 
 .sigheadingm {
@@ -175,7 +177,9 @@
     color: rgb(0, 0, 0);
     padding: 20px;
 }
-
+.logbtn-login{
+    background-color:#001529 ;
+}
 
 .Forgetpassword {
     height: 100vh;
@@ -194,3 +198,82 @@
 
 }
 
+.Publishride{
+    height: 100vh;
+    
+    
+
+}
+.publish-form{
+    
+    height: 300px;
+    width: 100%;
+    margin-top: 0px;
+
+
+}
+
+.ridediv{
+      border: 1px solid #000000;
+      padding: 15px;
+    margin-Bottom: 10px;
+      border-Radius: 8px;
+      padding: 20px;
+      margin-right:10px;
+height: 220px;
+width: 30%;
+margin-left: 80px;
+}
+
+.INFO{
+    margin-right:10px;
+}
+
+.info-header{
+    height:60px;
+width: 100%;
+background-color: #57aeff;
+color:white;
+padding: 20px;
+font-size: 30px;
+font-weight: bold;
+}
+.info{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.info-details{
+    height: 500px;
+    width:100%;
+    margin: 50px;
+    border: 1px solid black;
+    padding: 60px;
+}
+.info-details h3{
+    font-weight: bold;
+    font-size: 23px;
+}
+
+.publsih-box{
+    height: auto;
+    width: 90%;
+    background-color: #ffffff;
+}
+.publish-head{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.bookingsmain-div{
+    height: 100vh;
+    margin-top: 20px;
+}
+.booked-ride-div{
+    height: 300px;
+    width: 35%;
+    background: #995d5d;
+}

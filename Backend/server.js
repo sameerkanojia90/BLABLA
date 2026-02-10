@@ -7,6 +7,7 @@ const session = require("express-session");
 
 const connectdb = require("./config/mongoDB");
 const userRoutes = require("./routes/user");
+const drides = require("./routes/drides");
 
 connectdb();
 app.use(express.json());
@@ -26,7 +27,7 @@ app.use(session({
     }
 }))
 app.use("/api/user", userRoutes);
-
+app.use("/api/drides",drides);
 
 
 
@@ -44,6 +45,3 @@ app.listen(port,()=>{
 })
 
 
-// lucid 
-// tabler
-// autocomplete

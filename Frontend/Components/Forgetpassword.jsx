@@ -31,6 +31,10 @@ function ForgetPassword() {
   };
 
   return (
+    <>
+
+  
+
     <div className="Forgetpassword">
       <Card className="Forgetcard">
         <h2>Forgot Password</h2>
@@ -60,6 +64,7 @@ function ForgetPassword() {
         </Form>
       </Card>
     </div>
+   </>
   );
 }
 
