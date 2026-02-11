@@ -46,7 +46,7 @@ function Rideinfo() {
       });
   }, [id]);
 
-  if (loading) return <h2>Loading...</h2>;
+  if (loading) return <h2>Loading.....</h2>;
   if (!rideData) return <h2>Ride Not Found</h2>;
 
   return (

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Form, Input, Button, AutoComplete, Card } from "antd";
+import { Form, Input, Button, AutoComplete, Card, DatePicker } from "antd";
 import { useNavigate } from "react-router-dom";
 
 const API = import.meta.env.VITE_API;
@@ -9,7 +9,7 @@ function Searchrides() {
   const [fromOptions, setFromOptions] = useState([]);
   const [toOptions, setToOptions] = useState([]);
   const [rides, setRides] = useState([]);
-  const [searched, setSearched] = useState(false); 
+  const [searched, setSearched] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -42,11 +42,16 @@ function Searchrides() {
     try {
       setSearched(true);
 
-      const query = new URLSearchParams(values).toString();
+      const formattedValues = {
+        ...values,
+        Date: values.Date.toISOString()
+      };
+
+      const query = new URLSearchParams(formattedValues).toString();
 
       const res = await fetch(`${API}/api/drides/searchrides?${query}`, {
         method: "GET",
-        credentials: "include" 
+        credentials: "include"
       });
 
       const data = await res.json();
@@ -63,6 +68,28 @@ function Searchrides() {
     }
   };
 
+  const handleBook = async (rideId) => {
+  try {
+    const res = await fetch(`${API}/api/drides/bookride`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ rideId })
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      alert(" Your ride is booked and request sent to driver.");
+      navigate("/bookings");
+    } else {
+      alert(" Booking failed");
+    }
+
+  } catch (err) {
+    console.log(err);
+  }
+};
   return (
     <div style={{ padding: "40px" }}>
       <Form layout="vertical" onFinish={onFinish}>
@@ -102,7 +129,14 @@ function Searchrides() {
             rules={[{ required: true, message: "Please select date" }]}
             style={{ width: "220px" }}
           >
-            <Input type="date" />
+            <DatePicker
+              showTime
+              format="YYYY-MM-DD HH:mm"
+              disabledDate={(current) =>
+                current && current < new Date().setHours(0, 0, 0, 0)
+              }
+            />
+
           </Form.Item>
 
           <Form.Item
@@ -140,9 +174,10 @@ function Searchrides() {
               Info
             </Button>
 
-            <Button type="primary"
-            onClick={()=> 
-            navigate('/bookings')}>
+            <Button
+              type="primary"
+              onClick={() => handleBook(ride._id)}
+            >
               BOOK
             </Button>
 

@@ -12,6 +12,7 @@ import ResetPassword from '../Components/Resetpassword';
 import Publishride from '../Components/Publishride';
 import Rideinfo from '../Components/Rideinfo';
 import Bookings from '../Components/Bookings';
+import Profile from '../Components/Profile';
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
           <Route path="/login" element={<Loginpage />} />
           <Route path="/signup" element={<Signuppage />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path='/profile' element = {<Profile/>}/>
           <Route path='/forgetpassword' element={<Forgetpassword />} />
           <Route path='/resetpassword/:token' element={<ResetPassword/>}/>
           <Route path='/publishride' element={<Publishride/>}/>

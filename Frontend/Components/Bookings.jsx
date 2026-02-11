@@ -24,7 +24,7 @@ function Bookings() {
 
   const fetchBookings = async () => {
     try {
-      const res = await fetch(`${API}/api/bookings/mybookings`, {
+      const res = await fetch(`${API}/api/drides/bookingstatus`, {
         credentials: "include",
       });
 
@@ -42,13 +42,30 @@ function Bookings() {
     fetchBookings();
   }, []);
 
-  return (
-    <div className="Bookingsmain-div">
-      <div className="Booked-ride-div">
-        
-      </div>
+
+
+
+ return (
+  <div className="Bookingsmain-div">
+    <div className="Booked-ride-div">
+
+     {bookings.length === 0 ? (
+  <h2>No bookings found</h2>
+) : (
+  bookings.map((booking) => (
+    <div key={booking._id} className="booking-card">
+      <h3>{booking.ride.From} → {booking.ride.To}</h3>
+      <p>Date: {new Date(booking.ride.Date).toLocaleDateString()}</p>
+      <p>Price: ₹{booking.ride.Price}</p>
+      <p>Status: {booking.status}</p>
     </div>
-  );
+  ))
+)}
+
+    </div>
+  </div>
+);
 }
+
 
 export default Bookings;

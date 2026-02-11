@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Divider, Form, Input, Button, AutoComplete } from "antd";
+import { Divider, Form, Input, Button, AutoComplete, DatePicker } from "antd";
 import { useNavigate } from "react-router-dom";
 
 const API = import.meta.env.VITE_API;
@@ -9,8 +9,9 @@ function Publishride() {
   const [fromOptions, setFromOptions] = useState([]);
   const [toOptions, setToOptions] = useState([]);
   const [rides, setRides] = useState([]);
-  const navigate = useNavigate();
+    const[ status,setStatus] = useState([]);
 
+  const navigate = useNavigate();
   useEffect(() => {
     fetch(`${API}/api/user/dashboard`, {
       credentials: "include",
@@ -45,6 +46,50 @@ function Publishride() {
   useEffect(() => {
     fetchRides();
   }, []);
+
+
+ const fetchStatus = async () => {
+    try {
+      const res = await fetch(`${API}/api/drides/getstatus`, {
+        credentials: "include",
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        console.log("Fetched rides:", data);
+        setStatus(data.status);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchStatus();
+  }, []);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   const onFinish = async (values) => {
     try {
@@ -97,7 +142,7 @@ function Publishride() {
       : setToOptions(filtered);
 
 
-      
+
   };
 
   return (
@@ -131,7 +176,13 @@ function Publishride() {
             <Form.Item label="Date" name="Date" rules={[{ required: true }]}
               style={{ width: "220px" }}
             >
-              <Input type="date" />
+              <DatePicker
+                showTime
+                format="YYYY-MM-DD HH:mm"
+                disabledDate={(current) =>
+                  current && current < new Date().setHours(0, 0, 0, 0)
+                }
+              />
             </Form.Item>
 
             <Form.Item label="Price" name="Price" rules={[{ required: true }]}
@@ -155,27 +206,36 @@ function Publishride() {
           <Divider />
         </Form>
       </div>
-<div className="publish-head">
-               <h2>Published Rides</h2>
+      <div className="publish-head">
+        <h2>Published Rides</h2>
 
-</div>
+      </div>
       <div className="publsih-box">
 
         {rides.length === 0 && <p>No rides found</p>}
 
-       {rides.map((ride, index) => (
-<div className="displaydiv">
-  <div className="ridediv"
-    key={index} 
-    
-  >
-    <h3>{ride.From} ➜ {ride.To}</h3>
-    <p>Date: {new Date(ride.Date).toLocaleDateString()}</p>
-    <p>Price: ₹{ride.Price}</p>
-    <p>Seats: {ride.Seats}</p>
-  </div>
-</div>
-))}
+        {rides.map((ride, index) => (
+          <div className="displaydiv">
+            <div className="ridediv"
+              key={index}
+
+            >
+              <h3>{ride.From} <span> ➜</span> {ride.To}</h3>
+              <p>
+                Date: {new Date(ride.Date).toLocaleString("en-IN", {
+                  dateStyle: "medium",
+                  timeStyle: "short"
+                })}
+              </p>    
+              <p>Price: ₹{ride.Price}</p>
+              <p>Seats: {ride.Seats}</p>
+              <h3>BOOKING STATUS</h3>
+
+              
+
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

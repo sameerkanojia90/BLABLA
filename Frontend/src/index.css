@@ -268,12 +268,39 @@ font-weight: bold;
     font-weight: bold;
 }
 
-.bookingsmain-div{
+.Bookingsmain-div{
     height: 100vh;
     margin-top: 20px;
+
 }
-.booked-ride-div{
+.Booked-ride-div{
     height: 300px;
     width: 35%;
-    background: #995d5d;
+    display: flex;
+    flex-wrap: wrap;
+
+}
+
+
+.booking-card{
+    margin-top: 40px;
+    margin-left: 50px;
+    height: 200px;
+    width: 75%;
+    background-color: #fac3c3;
+    font-size: 17px;
+    border: 1px solid blue;
+    padding: 30px;
+
+}
+.booking-card h3{
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.ridediv span {
+    font-size:27px;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: rgb(0, 0, 0);
 }

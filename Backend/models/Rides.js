@@ -1,47 +1,48 @@
-const mongoose =  require('mongoose');
+const mongoose = require('mongoose');
 
-const RidesSchema  = new mongoose.Schema({
+const RidesSchema = new mongoose.Schema({
 
+  From: {
+    type: String,
+    required: true,
+  },
 
-From : {
-    type :String,
-    require:true,
+  To: {
+    type: String,
+    required: true,
+  },
 
+  Date: {
+    type: Date,
+    required: true,
+  },
 
-},
-To : {
-     type :String,
-    require:true,
+  Price: {
+    type: Number,
+    required: true,
+  },
 
-},
-Date : {
-     type :String,
-    require:true,
-},
+  Seats: {
+    type: Number,
+    required: true,
+  },
 
-Price:{
-    type:String,
-    require:true,
-},
-Seats : {
-     type :Number,
-    require:true,
-},
-RidesRating : {
-type :Number,
-    require:true,
-},
-user: {
+  RidesRating: {
+    type: Number,
+    default: 0
+  },
+
+  user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
-    require: true
+    required: true
   },
-  
-Status:{
+
+  Status: {
     type: String,
-    enum: ['pending', 'ongoing', 'completed'], 
+    enum: ['pending', 'accept', 'reject'],
     default: 'pending'
-}
+  },
 
 }, { timestamps: true });
 
