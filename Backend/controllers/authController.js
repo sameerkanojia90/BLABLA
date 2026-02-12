@@ -201,10 +201,29 @@ const resetPassword = async (req, res) => {
 
 
 
+const getProfile = async (req, res) => {
+  try {
+    if (!req.session.user) {
+      return res.status(401).json({ success: false });
+    }
 
+        
+    const user = await User.findById(req.session.user.id).select(
+      "name email phoneNo profilePic"
+    );
+
+    res.json({
+      success: true,
+      user
+    });
+
+  } catch (err) {
+    res.status(500).json({ success: false });
+  }
+};
   
 
 
 
-module.exports = { signup, login ,forgetPassword ,resetPassword};
+module.exports = { signup, login ,forgetPassword ,resetPassword,getProfile};
 

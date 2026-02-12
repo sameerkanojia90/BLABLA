@@ -69,22 +69,16 @@ function Publishride() {
   }, []);
 
 
+const updateStatus = async (bookingId, status) => {
+  await fetch(`${API}/api/drides/update-booking-status`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify({ bookingId, status })
+  });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  fetchRides(); 
+};
 
 
 
@@ -210,33 +204,99 @@ function Publishride() {
         <h2>Published Rides</h2>
 
       </div>
-      <div className="publsih-box">
+   <div className="publsih-box" style={{ marginTop: "20px" }}>
 
-        {rides.length === 0 && <p>No rides found</p>}
+  {rides.length === 0 && <p>No rides found</p>}
 
-        {rides.map((ride, index) => (
-          <div className="displaydiv">
-            <div className="ridediv"
-              key={index}
+  {rides.map((ride) => (
+    <div key={ride._id} style={{ marginBottom: "25px" }}>
+      
+      <div
+        style={{
+          border: "1px solid #ddd",
+          borderRadius: "10px",
+          padding: "20px",
+          background: "#fff",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.05)"
+        }}
+      >
+        <h2 style={{ marginBottom: "10px" }}>
+          {ride.From} ➜ {ride.To}
+        </h2>
 
+        <p>
+          <strong>Date:</strong>{" "}
+          {new Date(ride.Date).toLocaleString("en-IN", {
+            dateStyle: "medium",
+            timeStyle: "short"
+          })}
+        </p>
+
+        <p><strong>Price:</strong> ₹{ride.Price}</p>
+        <p><strong>Seats:</strong> {ride.Seats}</p>
+
+        <Divider />
+
+        <h3 style={{ marginBottom: "15px" }}>Bookings</h3>
+
+        {ride.bookings && ride.bookings.length > 0 ? (
+          ride.bookings.map((b) => (
+            <div
+              key={b._id}
+              style={{
+                border: "1px solid #eee",
+                padding: "15px",
+                borderRadius: "8px",
+                marginBottom: "10px",
+                background: "#fafafa"
+              }}
             >
-              <h3>{ride.From} <span> ➜</span> {ride.To}</h3>
+              <p><strong>Customer:</strong> {b.user?.name}</p>
+
               <p>
-                Date: {new Date(ride.Date).toLocaleString("en-IN", {
-                  dateStyle: "medium",
-                  timeStyle: "short"
-                })}
-              </p>    
-              <p>Price: ₹{ride.Price}</p>
-              <p>Seats: {ride.Seats}</p>
-              <h3>BOOKING STATUS</h3>
+                <strong>Status:</strong>{" "}
+                <span
+                  style={{
+                    color:
+                      b.status === "approved"
+                        ? "green"
+                        : b.status === "rejected"
+                        ? "red"
+                        : "orange",
+                    fontWeight: "bold"
+                  }}
+                >
+                  {b.status}
+                </span>
+              </p>
 
-              
+              {b.status === "pending" && (
+                <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
+                  <Button
+                    type="primary"
+                    onClick={() => updateStatus(b._id, "approved")}
+                  >
+                    Approve
+                  </Button>
 
+                  <Button
+                    danger
+                    onClick={() => updateStatus(b._id, "rejected")}
+                  >
+                    Reject
+                  </Button>
+                </div>
+              )}
             </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p style={{ color: "#999" }}>No bookings yet</p>
+        )}
       </div>
+    </div>
+  ))}
+
+</div>
     </div>
   );
 }

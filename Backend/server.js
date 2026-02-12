@@ -28,6 +28,7 @@ app.use(session({
 }))
 app.use("/api/user", userRoutes);
 app.use("/api/drides",drides);
+app.use("/uploads", express.static("uploads"));
 
 
 

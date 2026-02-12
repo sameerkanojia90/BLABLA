@@ -1,4 +1,5 @@
 const express = require("express");
+const upload = require("../middleware/upload");
 const authController = require("../controllers/authController");
 const router = express.Router();
 const isAuthenticated = require("../middleware/Auth");
@@ -9,7 +10,7 @@ router.post("/signup", authController.signup);
 router.post("/login",authController.login);
 router.post("/forgetpassword", authController.forgetPassword)
 router.post("/resetpassword/:token",authController.resetPassword )
-
+router.get("/profile",authController.getProfile);
 router.get("/dashboard", isAuthenticated, (req, res) => {
     res.json({
         success: true,
@@ -28,6 +29,28 @@ router.get("/logout", (req, res) => {
     });
 });
  
+router.post(
+  "/upload-profile",
+  upload.single("profilePic"),
+  async (req, res) => {
+    try {
 
+      if (!req.session.user) {
+        return res.status(401).json({ success: false });
+      }
+
+      const user = await User.findById(req.session.user._id);
+
+      user.profilePic = req.file.filename;
+      await user.save();
+
+      res.json({ success: true });
+
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ success: false });
+    }
+  }
+);
 
 module.exports = router;

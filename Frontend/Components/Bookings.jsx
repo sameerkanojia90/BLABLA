@@ -44,27 +44,61 @@ function Bookings() {
 
 
 
+  return (
+    <div className="Bookingsmain-div">
+      <h2 style={{ textAlign: "center", marginBottom: "20px" }}>
+        My Bookings
+      </h2>
 
- return (
-  <div className="Bookingsmain-div">
-    <div className="Booked-ride-div">
+      {bookings.length === 0 ? (
+        <h3 style={{ textAlign: "center" }}>No bookings found</h3>
+      ) : (
+        bookings.map((booking) => (
+          <div
+            key={booking._id}
+            className="booking-card"
+            style={{
+              border: "1px solid #ddd",
+              padding: "15px",
+              marginBottom: "15px",
+              borderRadius: "8px",
+              backgroundColor: "#f9f9f9"
+            }}
+          >
+            <h3>
+              {booking.ride.From} → {booking.ride.To}
+            </h3>
 
-     {bookings.length === 0 ? (
-  <h2>No bookings found</h2>
-) : (
-  bookings.map((booking) => (
-    <div key={booking._id} className="booking-card">
-      <h3>{booking.ride.From} → {booking.ride.To}</h3>
-      <p>Date: {new Date(booking.ride.Date).toLocaleDateString()}</p>
-      <p>Price: ₹{booking.ride.Price}</p>
-      <p>Status: {booking.status}</p>
+            <p>
+              <strong>Date:</strong>{" "}
+              {new Date(booking.ride.Date).toLocaleDateString()}
+            </p>
+
+            <p>
+              <strong>Price:</strong> ₹{booking.ride.Price}
+            </p>
+
+            <p>
+              <strong>Status:</strong>{" "}
+              <span
+                style={{
+                  color:
+                    booking.status === "approved"
+                      ? "green"
+                      : booking.status === "rejected"
+                        ? "red"
+                        : "orange",
+                  fontWeight: "bold"
+                }}
+              >
+                {booking.status}
+              </span>
+            </p>
+          </div>
+        ))
+      )}
     </div>
-  ))
-)}
-
-    </div>
-  </div>
-);
+  );
 }
 
 

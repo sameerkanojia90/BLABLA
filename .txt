@@ -1,355 +1,59 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
+import { Layout, Card, Avatar, Descriptions, Button } from "antd";
+import { UserOutlined } from "@ant-design/icons";
 
-const API = import.meta.env.VITE_API;
+const { Content } = Layout;
 
-function Bookings() {
-  const navigate = useNavigate();
-  const [bookings, setBookings] = useState([]);
+function Profile() {
+  return (
+    <Layout style={{ minHeight: "100vh", background: "#f5f5f5" }}>
 
-  useEffect(() => {
-    fetch(`${API}/api/user/dashboard`, {
-      credentials: "include",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (!data.success) {
-          navigate("/login");
-        }
-      })
-      .catch(() => {
-        navigate("/login");
-      });
-  }, []);
+      <Content
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "40px"
+        }}
+      >
+        <Card
+          style={{
+            width: 400,
+            borderRadius: "8px"
+          }}
+        >
 
-  const fetchBookings = async () => {
-    try {
-      const res = await fetch(`${API}/api/drides/bookingstatus`, {
-        credentials: "include",
-      });
-
-      const data = await res.json();
-
-      if (data.success) {
-        setBookings(data.bookings);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  useEffect(() => {
-    fetchBookings();
-  }, []);
-
-
-
-
- return (
-  <div className="Bookingsmain-div">
-    <div className="Booked-ride-div">
-
-      {bookings.length === 0 ? (
-        <h2>No bookings found</h2>
-      ) : (
-        bookings.map((booking) => (
-          <div key={booking._id} className="booking-card">
-            <h3>{booking.ride.From} → {booking.ride.To}</h3>
-            <p>Date: {booking.ride.Date}</p>
-            <p>Price: ₹{bookin.rideg.Price}</p>
-                <p>Status: {booking.ride.status}</p>
-
+          <div style={{ textAlign: "center", marginBottom: "20px" }}>
+            <Avatar size={70} icon={<UserOutlined />} />
+            <h3 style={{ marginTop: "10px" }}>Sameer</h3>
           </div>
-        ))
-      )}
 
-    </div>
-  </div>
-);
+          <Descriptions column={1}>
+            <Descriptions.Item label="Email">
+              sameer@gmail.com
+            </Descriptions.Item>
+
+            <Descriptions.Item label="Phone">
+              9876543210
+            </Descriptions.Item>
+
+            
+
+          <div style={{ textAlign: "center", marginTop: "20px" }}>
+            <Button type="primary">
+              Edit Profile
+            </Button>
+          </div>
+
+        </Card>
+      </Content>
+
+    </Layout>
+  );
 }
 
-export default Bookings;
+export default Profile;
 
 
-
-
-
-const mongoose = require("mongoose");
-
-const bookingSchema = new mongoose.Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true
-  },
-  ride: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Rides",
-    required: true
-  },
-  status: {
-    type: String,
-    default: "pending"
-  }
-}, { timestamps: true });
-
-module.exports = mongoose.model("Booking", bookingSchema);
-
-require('dotenv').config();
-const Rides = require("../models/Rides");
-const User = require("../models/User");
-const Booking = require('../models/Booking')
-
-
-const publishride = async (req, res) => {
-  try {
-
-    if (!req.session.user) {
-      return res.status(401).json({
-        success: false,
-        message: "User not logged in"
-      });
-    }
-
-    const { From, To, Date: rideDate, Price, Seats } = req.body;
-
-    if (!From || !To || !rideDate || !Price || !Seats) {
-      return res.status(400).json({
-        success: false,
-        message: "All fields required"
-      });
-    }
-
-    const ride = new Rides({
-      From,
-      To,
-      Date: new Date(rideDate),
-      Price: Number(Price),
-      Seats: Number(Seats),
-      user: req.session.user.id
-    });
-
-    await ride.save();
-
-    res.status(201).json({
-      success: true,
-      message: "Ride published successfully",
-      ride
-    });
-
-  } catch (error) {
-    console.log("Publish Ride Error:", error);
-    res.status(500).json({
-      success: false,
-      message: error.message
-    });
-  }
-};
-
-
-const getRides = async (req, res) => {
-  try {
-
-    if (!req.session.user) {
-      return res.status(401).json({
-        success: false,
-        message: "User not logged in"
-      });
-    }
-
-    const rides = await Rides.find({ user: req.session.user.id });
-
-    res.json({
-      success: true,
-      rides
-    });
-
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ success: false });
-  }
-};
-
-const searchRides = async (req, res) => {
-  try {
-
-
-
-    if (!req.session.user) {
-      return res.status(401).json({
-        success: false,
-        message: "User not logged in"
-      });
-    }
-    const { From, To, Date: rideDate, Seats } = req.query;
-
-    let query = {};
-
-    if (From) query.From = From;
-    if (To) query.To = To;
-
-    if (rideDate) {
-      const selectedDate = new global.Date(rideDate);
-
-      const startOfDay = new global.Date(selectedDate);
-      startOfDay.setHours(0, 0, 0, 0);
-
-      const endOfDay = new global.Date(selectedDate);
-      endOfDay.setHours(23, 59, 59, 999);
-
-      query.Date = {
-        $gte: startOfDay,
-        $lte: endOfDay
-      };
-    }
-
-    if (Seats) {
-      query.Seats = { $gte: Number(Seats) };
-    }
-
-    const rides = await Rides.find(query).sort({ Date: 1 });
-
-    res.json({
-      success: true,
-      rides
-    });
-
-  } catch (error) {
-    console.log("Search Error:", error);
-    res.status(500).json({
-      success: false,
-      message: "Server error"
-    });
-  }
-};
-const InfoRides = async (req, res) => {
-  try {
-
-    if (!req.session.user) {
-      return res.status(401).json({
-        success: false,
-        message: "User not logged in"
-      });
-    }
-    const { id } = req.params;
-
-    if (!id) {
-      return res.status(400).json({
-        success: false,
-        message: "Ride ID is required"
-      });
-    }
-
-    const ride = await Rides.findById(id)
-      .populate("user", "email phoneNo");
-
-    if (!ride) {
-      return res.status(404).json({
-        success: false,
-        message: "Ride not found"
-      });
-    }
-
-    res.status(200).json({
-      success: true,
-      ride
-    });
-
-  } catch (error) {
-    console.log("InfoRides Error:", error);
-
-    res.status(500).json({
-      success: false,
-      message: "Server error"
-    });
-  }
-};
-
-
-
-const BookingRide = async (req, res) => {
-  try {
-
-    if (!req.session.user) {
-      return res.status(401).json({
-        success: false,
-        message: "User not logged in"
-      });
-    }
-
-    const { rideId } = req.body;
-
-    if (!rideId) {
-      return res.status(400).json({
-        success: false,
-        message: "Ride ID required"
-      });
-    }
-
-    const newBooking = await Booking.create({
-      user: req.session.user.id,
-      ride: rideId
-    });
-
-    res.status(201).json({
-      success: true,
-      booking: newBooking
-    });
-
-  } catch (err) {
-    console.log("Booking Error:", err);
-    res.status(500).json({
-      success: false,
-      message: "Server error"
-    });
-  }
-};
-
-
-const Status = async (req, res) => {
-  try {
-
-    if (!req.session.user) {
-      return res.status(401).json({
-        success: false,
-        message: "User not logged in"
-      });
-    }
-
-    const bookings = await Booking.find({
-      user: req.session.user._id
-    }).populate("ride");
-
-    res.json({
-      success: true,
-      bookings
-    });
-
-  } catch (err) {
-    console.log("Status Error:", err);
-    res.status(500).json({
-      success: false
-    });
-  }
-};
-module.exports = {
-  publishride
-  , getRides,
-  searchRides,
-  InfoRides,
-  BookingRide,
-  Status
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
+isme name or email phone no ye sb backend se laana h jo ki storemeans user logi hai
+or phot bhi add oni chyiye

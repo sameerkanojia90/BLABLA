@@ -53,26 +53,27 @@ const publishride = async (req, res) => {
 const getRides = async (req, res) => {
   try {
 
-    if (!req.session.user) {
-      return res.status(401).json({
-        success: false,
-        message: "User not logged in"
-      });
-    }
-
-    const rides = await Rides.find({ user: req.session.user.id });
+    const rides = await Rides.find({
+      driver: req.session.user._id
+    })
+    .populate({
+      path: "bookings",
+      populate: {
+        path: "user",
+        select: "name email"
+      }
+    });
 
     res.json({
       success: true,
       rides
     });
 
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    console.log(err);
     res.status(500).json({ success: false });
   }
 };
-
 const searchRides = async (req, res) => {
   try {
 
@@ -107,9 +108,18 @@ const searchRides = async (req, res) => {
     }
 
     if (Seats) {
-      query.Seats = { $gte: Number(Seats) };
+      query.Seats = { $gte: Number(Seats),
+       };
     }
 
+      if(Seats > 7)
+      {
+    return    res.status(400).json({
+      success:false,
+      meassage:" we have only 7 seats "
+    
+    })
+      }
     const rides = await Rides.find(query).sort({ Date: 1 });
 
     res.json({
@@ -194,6 +204,10 @@ const BookingRide = async (req, res) => {
       ride: rideId
     });
 
+    await Rides.findByIdAndUpdate(
+  rideId,
+  { $push: { bookings: newBooking._id } }
+);
     res.status(201).json({
       success: true,
       booking: newBooking
@@ -262,13 +276,21 @@ const done  =   await Booking.find({
 
 
 
-
-
-
-
-
 }
 
+
+const updateBookingStatus = async (req, res) => {
+  try {
+    const { bookingId, status } = req.body;
+
+    await Booking.findByIdAndUpdate(bookingId, { status });
+
+    res.json({ success: true });
+
+  } catch (err) {
+    res.status(500).json({ success: false });
+  }
+};
 module.exports = {
   publishride
   , getRides,
@@ -276,5 +298,6 @@ module.exports = {
   InfoRides,
   BookingRide,
   Status,
-  Getstatus
+  Getstatus,
+  updateBookingStatus
 }

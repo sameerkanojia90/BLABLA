@@ -43,6 +43,10 @@ const RidesSchema = new mongoose.Schema({
     enum: ['pending', 'accept', 'reject'],
     default: 'pending'
   },
+  bookings: [{
+  type: mongoose.Schema.Types.ObjectId,
+  ref: "Booking"
+}]
 
 }, { timestamps: true });
 

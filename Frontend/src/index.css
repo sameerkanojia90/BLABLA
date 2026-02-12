@@ -1,306 +1,64 @@
-@import "tailwindcss";
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-
+/* .bookings-container {
+  max-width: 850px;
+  margin: 40px auto;
+  padding: 20px;
 }
 
-.first-header{
-    height: 100px;
-    width: 100%;
-    background-color: white;
-    display: flex;
+.bookings-title {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 28px;
 }
 
-
-
-
-
-
-
-
-
-
-
-.signup {
-
-    height: 40px;
-    width: 100px;
-    background-color: black;
-    color: white;
-    border: 3px solid white;
-    border-radius: 10px;
-    cursor: pointer;
-
+.no-booking {
+  text-align: center;
+  color: #888;
 }
 
-.login {
-    margin-left: 20px;
-    height: 40px;
-    width: 120px;
-    color: black;
-    border: 3px solid rgb(0, 0, 0);
-    border-radius: 10px;
-    cursor: pointer;
-
-
+.booking-card {
+  background: white;
+  padding: 20px;
+  border-radius: 14px;
+  margin-bottom: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  transition: 0.3s ease;
 }
 
-
-
-
-
-
-
-.Signup-container {
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-
-
-}
-.first-head{
-    color:#054752 ;
-    font-weight: bold;
+.booking-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
-.signup-heading {
-    text-align: center;
+.route {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 12px;
 }
 
-.Signup-box {
-    padding-top: 10px;
-    border: 2px solid black;
-    margin: 30px;
+.booking-info p {
+  margin: 6px 0;
 }
 
-.input-groups {
-    padding-top: 4px;
-
-
-
+.status {
+  margin-left: 10px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: bold;
+  text-transform: capitalize;
 }
 
-.input-label {
-    font-size: 16px;
+.status.approved {
+  background-color: #e6f4ea;
+  color: #2e7d32;
 }
 
-.signup-button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.status.rejected {
+  background-color: #fdecea;
+  color: #c62828;
 }
 
-.signup-btn {
-    height: 30px;
-    width: 50%;
-    margin: 20px;
-    border: 1.4px solid black;
-    border-radius: 5px;
-    background-color: rgb(58, 225, 255);
-}
-
-
-
-.signup-btn:hover {
-    background-color: rgb(94, 0, 102);
-    border: 1.4px solid rgb(248, 245, 245);
-    color: white;
-}
-
-
-
-.log-header {
-    height: 3.5rem;
-    background-color: #001529;
-
-}
-
-.log-head {
-    font-size: 25px;
-    font-weight: bold;
-    color: rgb(247, 248, 255);
-    padding: 20px;
-}
-
-.loginpage-card {
-    height: 270px;
-    width: 30%;
-    background-color: rgb(255, 255, 255);
-    border: 1px solid black;
-
-}
-
-.sig-header {
-    height: 3.5rem;
-    background-color: #001529;
-}
-
-.sigheadingm {
-    font-size: 25px;
-    font-weight: bold;
-    color: rgb(247, 248, 255);
-    padding: 20px;
-}
-
-.first-div {
-    height: 3.5rem;
-    background-color: rgb(58, 225, 255);
-    display: flex;
-    justify-content: space-between;
-
-}
-
-.LOGOUT {
-    margin: 20px;
-}
-
-.Log-out {
-    background-color: white;
-    color: black;
-    padding: 4px;
-    height: 29px;
-    width: 100%;
-}
-
-.Log-out :hover {
-    background-color: blue;
-}
-
-.main-head {
-    font-size: 25px;
-    font-weight: bold;
-    color: rgb(0, 0, 0);
-    padding: 20px;
-}
-.logbtn-login{
-    background-color:#001529 ;
-}
-
-.Forgetpassword {
-    height: 100vh;
-    background-color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-}
-
-.Forgetcard {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid black;
-
-}
-
-.Publishride{
-    height: 100vh;
-    
-    
-
-}
-.publish-form{
-    
-    height: 300px;
-    width: 100%;
-    margin-top: 0px;
-
-
-}
-
-.ridediv{
-      border: 1px solid #000000;
-      padding: 15px;
-    margin-Bottom: 10px;
-      border-Radius: 8px;
-      padding: 20px;
-      margin-right:10px;
-height: 220px;
-width: 30%;
-margin-left: 80px;
-}
-
-.INFO{
-    margin-right:10px;
-}
-
-.info-header{
-    height:60px;
-width: 100%;
-background-color: #57aeff;
-color:white;
-padding: 20px;
-font-size: 30px;
-font-weight: bold;
-}
-.info{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.info-details{
-    height: 500px;
-    width:100%;
-    margin: 50px;
-    border: 1px solid black;
-    padding: 60px;
-}
-.info-details h3{
-    font-weight: bold;
-    font-size: 23px;
-}
-
-.publsih-box{
-    height: auto;
-    width: 90%;
-    background-color: #ffffff;
-}
-.publish-head{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 30px;
-    font-weight: bold;
-}
-
-.Bookingsmain-div{
-    height: 100vh;
-    margin-top: 20px;
-
-}
-.Booked-ride-div{
-    height: 300px;
-    width: 35%;
-    display: flex;
-    flex-wrap: wrap;
-
-}
-
-
-.booking-card{
-    margin-top: 40px;
-    margin-left: 50px;
-    height: 200px;
-    width: 75%;
-    background-color: #fac3c3;
-    font-size: 17px;
-    border: 1px solid blue;
-    padding: 30px;
-
-}
-.booking-card h3{
-    font-weight: bold;
-    font-size: 25px;
-}
-
-.ridediv span {
-    font-size:27px;
-    padding-left: 10px;
-    padding-right: 10px;
-    color: rgb(0, 0, 0);
-}
+.status.pending {
+  background-color: #fff4e5;
+  color: #ed6c02;
+} */
