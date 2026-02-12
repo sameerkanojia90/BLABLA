@@ -88,7 +88,7 @@ function Profile() {
         }}
       >
         <Card style={{ width: 400, borderRadius: "8px" }}>
-          {/* Profile Section */}
+      
           <div style={{ textAlign: "center", marginBottom: "20px" }}>
             <Avatar
               size={100}
@@ -111,7 +111,6 @@ function Profile() {
             <h3 style={{ marginTop: "10px" }}>{user?.name}</h3>
           </div>
 
-          {/* User Info */}
           <Descriptions column={1}>
             <Descriptions.Item label="Email">
               {user?.email}
@@ -121,7 +120,7 @@ function Profile() {
               {user?.phoneNo || "Not Provided"}
             </Descriptions.Item>
           </Descriptions>
-
+        
           <div style={{ textAlign: "center", marginTop: "20px" }}>
             <Button type="primary" onClick={() => navigate("/edit-profile")}>
               Edit Profile

@@ -29,9 +29,7 @@ router.get("/logout", (req, res) => {
     });
 });
  
-router.post(
-  "/upload-profile",
-  upload.single("profilePic"),
+router.post("/upload-profile",upload.single("profilePic"),
   async (req, res) => {
     try {
 
@@ -39,7 +37,7 @@ router.post(
         return res.status(401).json({ success: false });
       }
 
-      const user = await User.findById(req.session.user._id);
+      const user = await User.findById(req.session.user.id);
 
       user.profilePic = req.file.filename;
       await user.save();
