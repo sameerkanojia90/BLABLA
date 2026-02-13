@@ -10,6 +10,8 @@ function Searchrides() {
   const [toOptions, setToOptions] = useState([]);
   const [rides, setRides] = useState([]);
   const [searched, setSearched] = useState(false);
+  const [passengerCount, setPassengerCount] = useState({});
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -46,7 +48,7 @@ function Searchrides() {
     try {
 
 
-      
+
       setSearched(true);
 
       const formattedValues = {
@@ -80,28 +82,42 @@ function Searchrides() {
 
 
 
-  const handleBook = async (rideId) => {
+  const handleBook = async (rideId, seats) => {
   try {
+
+    if (!seats || seats <= 0) {
+      alert("Enter valid passenger count");
+      return;
+    }
+
     const res = await fetch(`${API}/api/drides/bookride`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
-      body: JSON.stringify({ rideId })
+      body: JSON.stringify({ rideId, seats })
     });
 
     const data = await res.json();
 
     if (data.success) {
-      alert(" Your ride is booked and request sent to driver.");
-      navigate("/bookings");
+
+      setRides(prev =>
+        prev.map(r =>
+          r._id === rideId ? { ...r, Seats: r.Seats - seats } : r
+        )
+      );
+
+      alert("Seats booked successfully");
+
     } else {
-      alert(" Booking failed");
+      alert(data.message || "Booking failed");
     }
 
   } catch (err) {
     console.log(err);
   }
 };
+  
   return (
     <div style={{ padding: "40px" }}>
       <Form layout="vertical" onFinish={onFinish}>
@@ -178,7 +194,7 @@ function Searchrides() {
             <p>Date: {new Date(ride.Date).toLocaleDateString()}</p>
             <p>Price: ₹{ride.Price}</p>
             <p>Seats Available: {ride.Seats}</p>
-            
+
 
             <Button
               style={{ marginRight: "10px" }}
@@ -187,12 +203,42 @@ function Searchrides() {
               Info
             </Button>
 
+           
+            <Input
+              type="number"
+              min={1}
+              max={ride.Seats}
+              value={passengerCount[ride._id] || ""}
+              placeholder="Passengers"
+              style={{ width: "80px",
+               marginRight: "10px" }}
+              onChange={(e) =>
+                setPassengerCount(prev => ({
+                  ...prev,
+                  [ride._id]: Number(e.target.value)
+                }))
+              }
+            />
+
             <Button
               type="primary"
-              onClick={() => handleBook(ride._id)}
+              disabled={
+                !passengerCount[ride._id] ||
+                passengerCount[ride._id] <= 0 ||
+                passengerCount[ride._id] > ride.Seats
+              }
+              onClick={() =>
+                handleBook(ride._id, passengerCount[ride._id])
+              }
             >
               BOOK
             </Button>
+
+
+
+
+
+
 
 
           </Card>

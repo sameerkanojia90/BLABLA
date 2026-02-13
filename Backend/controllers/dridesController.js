@@ -190,44 +190,49 @@ const InfoRides = async (req, res) => {
 const BookingRide = async (req, res) => {
   try {
 
-    if (!req.session.user) {
-      return res.status(401).json({
-        success: false,
-        message: "User not logged in"
-      });
-    }
+    const { rideId, seats } = req.body;
+    const seatCount = Number(seats);
 
-    const { rideId } = req.body;
-
-    if (!rideId) {
+    if (!rideId || seatCount <= 0) {
       return res.status(400).json({
         success: false,
-        message: "Ride ID required"
+        message: "Invalid data"
       });
     }
 
-    const newBooking = await Booking.create({
+    const ride = await Rides.findOneAndUpdate(
+      { _id: rideId, Seats: { $gte: seatCount } },
+      { $inc: { Seats: -seatCount } },
+      { new: true }
+    );
+
+    if (!ride) {
+      return res.status(400).json({
+        success: false,
+        message: "Not enough seats available"
+      });
+    }
+
+    const booking = await Booking.create({
       user: req.session.user.id,
-      ride: rideId
+      ride: rideId,
+      seats: seatCount
     });
 
-    await Rides.findByIdAndUpdate(
-  rideId,
-  { $push: { bookings: newBooking._id } }
-);
     res.status(201).json({
       success: true,
-      booking: newBooking
+      booking
     });
 
   } catch (err) {
-    console.log("Booking Error:", err);
+    console.log(err);
     res.status(500).json({
-      success: false,
-      message: "Server error"
+      success: false
     });
   }
 };
+
+
 
 
 const Status = async (req, res) => {
@@ -260,8 +265,6 @@ const Status = async (req, res) => {
 
 
 const Getstatus = async (req,res) => {
-
-
 try{
 
 const done  =   await Booking.find({

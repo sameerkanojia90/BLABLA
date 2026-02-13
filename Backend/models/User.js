@@ -48,6 +48,11 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    Addseats : {
+        type :Number,
+        required : true,
+        
+    }
 
 
 
