@@ -207,7 +207,7 @@ const getProfile = async (req, res) => {
       return res.status(401).json({ success: false });
     }
 
-        
+
     const user = await User.findById(req.session.user.id).select(
       "name email phoneNo profilePic"
     );
@@ -225,5 +225,55 @@ const getProfile = async (req, res) => {
 
 
 
-module.exports = { signup, login ,forgetPassword ,resetPassword,getProfile};
+
+
+
+const UpdateProfile = async (req, res) => {
+  try {
+    const userId = req.session.user.id;   
+    const { name, email, phoneNo } = req.body;
+
+    const existingUser = await User.findOne({ email });
+
+    if (existingUser && existingUser._id.toString() !== userId) {
+      return res.status(400).json({
+        success: false,
+        message: "Email already in use",
+      });
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { name, email, phoneNo },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Profile updated successfully",
+      user: updatedUser,
+    });
+
+  } catch (error) {
+    console.log("Profile not updated:", error);
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+    });
+  }
+};
+module.exports = { signup,
+   login ,
+   forgetPassword
+    ,resetPassword,
+    getProfile,
+  UpdateProfile
+};
 

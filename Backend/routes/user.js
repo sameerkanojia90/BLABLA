@@ -6,11 +6,14 @@ const isAuthenticated = require("../middleware/Auth");
 const bcrypt = require("bcrypt");
 const User = require("../models/User");
 
+
 router.post("/signup", authController.signup);
 router.post("/login",authController.login);
 router.post("/forgetpassword", authController.forgetPassword)
 router.post("/resetpassword/:token",authController.resetPassword )
-router.get("/profile",authController.getProfile);
+router.get("/profile",isAuthenticated,authController.getProfile);
+router.put("/update-profile" ,isAuthenticated,authController.UpdateProfile);
+
 router.get("/dashboard", isAuthenticated, (req, res) => {
     res.json({
         success: true,

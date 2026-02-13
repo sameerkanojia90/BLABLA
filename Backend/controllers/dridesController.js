@@ -22,6 +22,14 @@ const publishride = async (req, res) => {
         message: "All fields required"
       });
     }
+    const seatsNumber = Number(Seats);
+
+if (seatsNumber <= 0 || seatsNumber > 7) {
+  return res.status(400).json({
+    success: false,
+    message: "Seats must be between 1 and 7"
+  });
+}
 
     const ride = new Rides({
       From,
@@ -107,19 +115,18 @@ const searchRides = async (req, res) => {
       };
     }
 
-    if (Seats) {
-      query.Seats = { $gte: Number(Seats),
-       };
-    }
+       if (Seats) {
+  const seat = Number(Seats);
 
-      if(Seats > 7)
-      {
-    return    res.status(400).json({
-      success:false,
-      meassage:" we have only 7 seats "
-    
-    })
-      }
+  if (seat <= 0 || seat > 7) {
+    return res.status(400).json({
+      success: false,
+      message: "Seats must be between 1 and 7"
+    });
+  }
+
+  query.Seats = { $gte: seat }; 
+}
     const rides = await Rides.find(query).sort({ Date: 1 });
 
     res.json({

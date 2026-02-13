@@ -16,20 +16,20 @@ const UserSchema = new mongoose.Schema({
     phoneNo: {
         type: Number,
         require: true,
-       
+
 
     },
     profilePic: {
-  type: String,
-  default: ""
-},
-    resetpassword :{
-         type:String,
-         default:""
+        type: String,
+        default: ""
     },
-    expirepassword : {
-        type : Date,
-        default : Date.now
+    resetpassword: {
+        type: String,
+        default: ""
+    },
+    expirepassword: {
+        type: Date,
+        default: Date.now
 
     },
 

@@ -38,8 +38,15 @@ function Searchrides() {
     type === "from" ? setFromOptions(filtered) : setToOptions(filtered);
   };
 
+
+
+
+
   const onFinish = async (values) => {
     try {
+
+
+      
       setSearched(true);
 
       const formattedValues = {
@@ -67,6 +74,11 @@ function Searchrides() {
       setRides([]);
     }
   };
+
+
+
+
+
 
   const handleBook = async (rideId) => {
   try {
@@ -166,6 +178,7 @@ function Searchrides() {
             <p>Date: {new Date(ride.Date).toLocaleDateString()}</p>
             <p>Price: ₹{ride.Price}</p>
             <p>Seats Available: {ride.Seats}</p>
+            
 
             <Button
               style={{ marginRight: "10px" }}
