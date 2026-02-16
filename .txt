@@ -1,1 +1,0 @@
-yha na puri ki puri ride book ho rhi me bnana chhata hu jese isme book kre toh puri ride book ho based on user details user seats count abhi agr seat h ume jese publsih hui 7 avaliable h 7 toh ye puri book krha h user ne agr 4 booki krni chhai toh isme diikkat isme ye fuctionlity bnnaai h taaki next user k assani or bcchi seats and book h updated fucntion k sath 

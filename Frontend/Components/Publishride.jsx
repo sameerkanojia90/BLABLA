@@ -50,14 +50,14 @@ function Publishride() {
 
  const fetchStatus = async () => {
     try {
-      const res = await fetch(`${API}/api/drides/getstatus`, {
+      const res = await fetch(`${API}/api/drides/getstatus/:id`, {
         credentials: "include",
       });
       const data = await res.json();
 
       if (data.success) {
-        console.log("Fetched rides:", data);
-        setStatus(data.status);
+        console.log("Fetched rides Status:", data);
+        setStatus(data.done);
       }
     } catch (err) {
       console.log(err);
@@ -115,6 +115,10 @@ const updateStatus = async (bookingId, status) => {
       .catch(err => console.log(err));
   }, []);
 
+
+
+
+
   const handleSearch = (value, type) => {
     if (!value) {
       type === "from" ? setFromOptions([]) : setToOptions([]);
@@ -139,166 +143,134 @@ const updateStatus = async (bookingId, status) => {
 
   };
 
-  return (
-    <div className="Publishride">
-      <div className="publish-form">
-        <Form layout="vertical" onFinish={onFinish}>
-          <div style={{ display: "flex", gap: "20px" }}>
 
-            <Form.Item label="From" name="From" rules={[{ required: true }]}
-              style={{ width: "220px" }}
-            >
-              <AutoComplete
-                options={fromOptions}
-                onSearch={(value) => handleSearch(value, "from")}
-                placeholder="From"
-                filterOption={false}
-              />
-            </Form.Item>
+return (
+  <div className="Publishride">
+    <div className="publish-form">
+      <Form layout="vertical" onFinish={onFinish}>
+        <div style={{ display: "flex", gap: "20px" }}>
+          <Form.Item label="From" name="From" rules={[{ required: true }]} style={{ width: "220px" }}>
+            <AutoComplete
+              options={fromOptions}
+              onSearch={(value) => handleSearch(value, "from")}
+              placeholder="From"
+              filterOption={false}
+            />
+          </Form.Item>
 
-            <Form.Item label="To" name="To" rules={[{ required: true }]}
-              style={{ width: "220px" }}
-            >
-              <AutoComplete
-                options={toOptions}
-                onSearch={(value) => handleSearch(value, "to")}
-                placeholder="To"
-                filterOption={false}
-              />
-            </Form.Item>
+          <Form.Item label="To" name="To" rules={[{ required: true }]} style={{ width: "220px" }}>
+            <AutoComplete
+              options={toOptions}
+              onSearch={(value) => handleSearch(value, "to")}
+              placeholder="To"
+              filterOption={false}
+            />
+          </Form.Item>
 
-            <Form.Item label="Date" name="Date" rules={[{ required: true }]}
-              style={{ width: "220px" }}
-            >
-              <DatePicker
-                showTime
-                format="YYYY-MM-DD HH:mm"
-                disabledDate={(current) =>
-                  current && current < new Date().setHours(0, 0, 0, 0)
-                }
-              />
-            </Form.Item>
+          <Form.Item label="Date" name="Date" rules={[{ required: true }]} style={{ width: "220px" }}>
+            <DatePicker
+              showTime
+              format="YYYY-MM-DD HH:mm"
+              disabledDate={(current) =>
+                current && current < new Date().setHours(0, 0, 0, 0)
+              }
+            />
+          </Form.Item>
 
-            <Form.Item label="Price" name="Price" rules={[{ required: true }]}
-              style={{ width: "220px" }}
-            >
-              <Input type="number" />
-            </Form.Item>
+          <Form.Item label="Price" name="Price" rules={[{ required: true }]} style={{ width: "220px" }}>
+            <Input type="number" />
+          </Form.Item>
 
-            <Form.Item label="Seats" name="Seats" rules={[{ required: true }]}
-              style={{ width: "220px" }}
-            >
-              <Input type="number" />
-            </Form.Item>
+          <Form.Item label="Seats" name="Seats" rules={[{ required: true }]} style={{ width: "220px" }}>
+            <Input type="number" />
+          </Form.Item>
+        </div>
 
-          </div>
-
-          <Button type="primary" htmlType="submit">
-            Publish Ride
-          </Button>
-
-          <Divider />
-        </Form>
-      </div>
-      <div className="publish-head">
-        <h2>Published Rides</h2>
-
-      </div>
-   <div className="publsih-box" style={{ marginTop: "20px" }}>
-
-  {rides.length === 0 && <p>No rides found</p>}
-
-  {rides.map((ride) => (
-    <div key={ride._id} style={{ marginBottom: "25px" }}>
-      
-      <div
-        style={{
-          border: "1px solid #ddd",
-          borderRadius: "10px",
-          padding: "20px",
-          background: "#fff",
-          boxShadow: "0 2px 8px rgba(0,0,0,0.05)"
-        }}
-      >
-        <h2 style={{ marginBottom: "10px" }}>
-          {ride.From} ➜ {ride.To}
-        </h2>
-
-        <p>
-          <strong>Date:</strong>{" "}
-          {new Date(ride.Date).toLocaleString("en-IN", {
-            dateStyle: "medium",
-            timeStyle: "short"
-          })}
-        </p>
-
-        <p><strong>Price:</strong> ₹{ride.Price}</p>
-        <p><strong>Seats:</strong> {ride.Seats}</p>
-
+        <Button type="primary" htmlType="submit">
+          Publish Ride
+        </Button>
         <Divider />
+      </Form>
+    </div>
 
-        <h3 style={{ marginBottom: "15px" }}>Bookings</h3>
+    <div className="publish-head">
+      <h2>Published Rides</h2>
+    </div>
 
-        {ride.bookings && ride.bookings.length > 0 ? (
-          ride.bookings.map((b) => (
-            <div
-              key={b._id}
-              style={{
-                border: "1px solid #eee",
-                padding: "15px",
-                borderRadius: "8px",
-                marginBottom: "10px",
-                background: "#fafafa"
-              }}
-            >
-              <p><strong>Customer:</strong> {b.user?.name}</p>
+    <div className="publsih-box" style={{ marginTop: "20px" }}>
+      {rides.length === 0 && <p>No rides found</p>}
 
-              <p>
-                <strong>Status:</strong>{" "}
-                <span
+      {rides.map((ride) => (
+        <div key={ride._id} style={{ marginBottom: "25px" }}>
+          <div
+            style={{
+              border: "1px solid #ddd",
+              borderRadius: "10px",
+              padding: "20px",
+              background: "#fff",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.05)"
+            }}
+          >
+            <h2>{ride.From} ➜ {ride.To}</h2>
+
+            <p>
+              <strong>Date:</strong>{" "}
+              {new Date(ride.Date).toLocaleString("en-IN", {
+                dateStyle: "medium",
+                timeStyle: "short"
+              })}
+            </p>
+
+            <p><strong>Price:</strong> ₹{ride.Price}</p>
+            <p><strong>Seats Left:</strong> {ride.Seats}</p>
+
+            <Divider />
+
+            <h3>Bookings</h3>
+
+            {ride.bookings && ride.bookings.length > 0 ? (
+              ride.bookings.map((b) => (
+                <div
+                  key={b._id}
                   style={{
-                    color:
-                      b.status === "approved"
-                        ? "green"
-                        : b.status === "rejected"
-                        ? "red"
-                        : "orange",
-                    fontWeight: "bold"
+                    border: "1px solid #eee",
+                    padding: "15px",
+                    borderRadius: "8px",
+                    marginBottom: "10px",
+                    background: "#fafafa"
                   }}
                 >
-                  {b.status}
-                </span>
-              </p>
+                  <p><strong>Customer:</strong> {b.user?.name}</p>
+                  <p><strong>Status:</strong> {b.status}</p>
 
-              {b.status === "pending" && (
-                <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
-                  <Button
-                    type="primary"
-                    onClick={() => updateStatus(b._id, "approved")}
-                  >
-                    Approve
-                  </Button>
+                  {b.status === "pending" && (
+                    <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
+                      <Button
+                        type="primary"
+                        onClick={() => updateStatus(b._id, "approved")}
+                      >
+                        Approve
+                      </Button>
 
-                  <Button
-                    danger
-                    onClick={() => updateStatus(b._id, "rejected")}
-                  >
-                    Reject
-                  </Button>
+                      <Button
+                        danger
+                        onClick={() => updateStatus(b._id, "rejected")}
+                      >
+                        Reject
+                      </Button>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-          ))
-        ) : (
-          <p style={{ color: "#999" }}>No bookings yet</p>
-        )}
-      </div>
+              ))
+            ) : (
+              <p style={{ color: "#999" }}>No bookings yet</p>
+            )}
+          </div>
+        </div>
+      ))}
     </div>
-  ))}
-
-</div>
-    </div>
-  );
+  </div>
+);
 }
 
 export default Publishride;

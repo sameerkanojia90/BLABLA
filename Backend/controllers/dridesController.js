@@ -62,7 +62,7 @@ const getRides = async (req, res) => {
   try {
 
     const rides = await Rides.find({
-      driver: req.session.user._id
+      user: req.session.user.id
     })
     .populate({
       path: "bookings",
@@ -190,6 +190,15 @@ const InfoRides = async (req, res) => {
 const BookingRide = async (req, res) => {
   try {
 
+
+     if (!req.session.user) {
+      return res.status(401).json({
+        success: false,
+        message: "User not logged in"
+      });
+    }
+
+
     const { rideId, seats } = req.body;
     const seatCount = Number(seats);
 
@@ -199,6 +208,7 @@ const BookingRide = async (req, res) => {
         message: "Invalid data"
       });
     }
+    
 
     const ride = await Rides.findOneAndUpdate(
       { _id: rideId, Seats: { $gte: seatCount } },
@@ -212,12 +222,17 @@ const BookingRide = async (req, res) => {
         message: "Not enough seats available"
       });
     }
+    
 
     const booking = await Booking.create({
       user: req.session.user.id,
       ride: rideId,
       seats: seatCount
     });
+
+await Rides.findByIdAndUpdate(rideId, {
+  $push: { bookings: booking._id }
+});
 
     res.status(201).json({
       success: true,
@@ -249,6 +264,8 @@ const Status = async (req, res) => {
       user: req.session.user.id
     }).populate("ride");
 
+    console.log(bookings);
+
     res.json({
       success: true,
       bookings
@@ -267,11 +284,10 @@ const Status = async (req, res) => {
 const Getstatus = async (req,res) => {
 try{
 
-const done  =   await Booking.find({
+const done = await Booking.find({
       user: req.session.user.id
     }).populate("ride");
 
-    
     res.status(200).json({
       success:true,
       done
@@ -301,6 +317,8 @@ const updateBookingStatus = async (req, res) => {
     res.status(500).json({ success: false });
   }
 };
+
+
 module.exports = {
   publishride
   , getRides,

@@ -7,8 +7,8 @@ router.post("/publishride", isAuthenticated,dridesController.publishride);
 router.get("/getrides", isAuthenticated, dridesController.getRides);
 router.get("/searchrides",isAuthenticated, dridesController.searchRides );
 router.get("/ride/:id",isAuthenticated, dridesController.InfoRides);
-router.post("/bookride", dridesController.BookingRide);
-router.get("/bookingstatus", dridesController.Status);
-router.get("/getstatus/:id",dridesController.Getstatus)
+router.post("/bookride",isAuthenticated, dridesController.BookingRide);
+router.get("/bookingstatus",isAuthenticated, dridesController.Status);
+router.get("/getstatus/:id",isAuthenticated,dridesController.Getstatus)
 router.post("/update-booking-status", dridesController.updateBookingStatus);
 module.exports  =  router;

@@ -11,6 +11,10 @@ const bookingSchema = new mongoose.Schema({
     ref: "Ride",
     required: true
   },
+  seats : {
+    type:Number,
+    required:true
+  },
   status: {
     type: String,
     default: "pending"

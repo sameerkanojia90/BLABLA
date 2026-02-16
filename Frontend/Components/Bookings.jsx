@@ -29,6 +29,8 @@ function Bookings() {
       });
 
       const data = await res.json();
+          console.log("BOOKING DATA:", data.bookings);
+
 
       if (data.success) {
         setBookings(data.bookings);
@@ -44,61 +46,68 @@ function Bookings() {
 
 
 
-  return (
-    <div className="Bookingsmain-div">
-      <h2 style={{ textAlign: "center", marginBottom: "20px" }}>
-        My Bookings
-      </h2>
+return (
+  <div className="Bookingsmain-div">
+    <h2 style={{ textAlign: "center", marginBottom: "20px" }}>
+      My Bookings
+    </h2>
 
-      {bookings.length === 0 ? (
-        <h3 style={{ textAlign: "center" }}>No bookings found</h3>
-      ) : (
-        bookings.map((booking) => (
-          <div
-            key={booking._id}
-            className="booking-card"
-            style={{
-              border: "1px solid #ddd",
-              padding: "15px",
-              marginBottom: "15px",
-              borderRadius: "8px",
-              backgroundColor: "#f9f9f9"
-            }}
-          >
-            <h3>
-              {booking.ride.From} → {booking.ride.To}
-            </h3>
+    {bookings.length === 0 ? (
+      <h3 style={{ textAlign: "center" }}>No bookings found</h3> ) : (
+      bookings.map((booking) => (
+        <div
+          key={booking._id}
+          className="booking-card"
+          style={{
+            border: "1px solid #ddd",
+            padding: "15px",
+            marginBottom: "15px",
+            borderRadius: "8px",
+            backgroundColor: "#f9f9f9"
+          }}
+        >
+          {booking.ride ? (
+            <>
+              <h3>
+                {booking.ride.From} → {booking.ride.To}
+              </h3>
 
-            <p>
-              <strong>Date:</strong>{" "}
-              {new Date(booking.ride.Date).toLocaleDateString()}
+              <p>
+                <strong>Date:</strong>{" "}
+                {new Date(booking.ride.Date).toLocaleDateString()}
+              </p>
+
+              <p>
+                <strong>Price:</strong> ₹{booking.ride.Price}
+              </p>
+            </>
+          ) : (
+            <p style={{ color: "red" }}>
+              Ride details not available (old booking)
             </p>
+          )}
 
-            <p>
-              <strong>Price:</strong> ₹{booking.ride.Price}
-            </p>
-
-            <p>
-              <strong>Status:</strong>{" "}
-              <span
-                style={{
-                  color:
-                    booking.status === "approved"
-                      ? "green"
-                      : booking.status === "rejected"
-                        ? "red"
-                        : "orange",
-                  fontWeight: "bold"
-                }}
-              >
-                {booking.status}
-              </span>
-            </p>
-          </div>
-        ))
-      )}
-    </div>
-  );
+          <p>
+            <strong>Status:</strong>{" "}
+            <span
+              style={{
+                color:
+                  booking.status === "approved"
+                    ? "green"
+                    : booking.status === "rejected"
+                    ? "red"
+                    : "orange",
+                fontWeight: "bold"
+              }}
+            >
+              {booking.status}
+            </span>
+          </p>
+        </div>
+      ))
+    )}
+  </div>
+);
 }
 
 
