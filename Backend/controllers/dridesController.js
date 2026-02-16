@@ -82,10 +82,77 @@ const getRides = async (req, res) => {
     res.status(500).json({ success: false });
   }
 };
+
+
+// const searchRides = async (req, res) => {
+//   try {
+
+
+
+//     if (!req.session.user) {
+//       return res.status(401).json({
+//         success: false,
+//         message: "User not logged in"
+//       });
+//     }
+
+
+
+//     const { From, To, Date: rideDate, Seats } = req.query;
+
+
+
+//     if (From) query.From = From;
+//     if (To) query.To = To;
+//     let query = {};
+
+//     if (rideDate) {
+//       const selectedDate = new global.Date(rideDate);
+
+//       const startOfDay = new global.Date(selectedDate);
+//       startOfDay.setHours(0, 0, 0, 0);
+
+//       const endOfDay = new global.Date(selectedDate);
+//       endOfDay.setHours(23, 59, 59, 999);
+
+//       query.Date = {
+//         $gte: startOfDay,
+//         $lte: endOfDay
+//       };
+//     }
+
+//        if (Seats) {
+//   const seat = Number(Seats);
+
+//   if (seat <= 0 || seat > 7) {
+//     return res.status(400).json({
+//       success: false,
+//       message: "Seats must be between 1 and 7"
+//     });
+//   }
+
+//   query.Seats = { $gte: seat }; 
+// }
+//     const rides = await Rides.find(query).sort({ Date: 1 });
+
+//     res.json({
+//       success: true,
+//       rides
+//     });
+
+//   } catch (error) {
+//     console.log("Search Error:", error);
+//     res.status(500).json({
+//       success: false,
+//       message: "Server error"
+//     });
+//   }
+// };
+
+
+
 const searchRides = async (req, res) => {
   try {
-
-
 
     if (!req.session.user) {
       return res.status(401).json({
@@ -93,20 +160,21 @@ const searchRides = async (req, res) => {
         message: "User not logged in"
       });
     }
+
     const { From, To, Date: rideDate, Seats } = req.query;
 
-    let query = {};
+    const query = {}; // 🔥 REQUIRED
 
     if (From) query.From = From;
     if (To) query.To = To;
 
     if (rideDate) {
-      const selectedDate = new global.Date(rideDate);
+      const selectedDate = new Date(rideDate);
 
-      const startOfDay = new global.Date(selectedDate);
+      const startOfDay = new Date(selectedDate);
       startOfDay.setHours(0, 0, 0, 0);
 
-      const endOfDay = new global.Date(selectedDate);
+      const endOfDay = new Date(selectedDate);
       endOfDay.setHours(23, 59, 59, 999);
 
       query.Date = {
@@ -115,18 +183,19 @@ const searchRides = async (req, res) => {
       };
     }
 
-       if (Seats) {
-  const seat = Number(Seats);
+    if (Seats) {
+      const seat = Number(Seats);
 
-  if (seat <= 0 || seat > 7) {
-    return res.status(400).json({
-      success: false,
-      message: "Seats must be between 1 and 7"
-    });
-  }
+      if (seat <= 0 || seat > 7) {
+        return res.status(400).json({
+          success: false,
+          message: "Seats must be between 1 and 7"
+        });
+      }
 
-  query.Seats = { $gte: seat }; 
-}
+      query.Seats = { $gte: seat };
+    }
+
     const rides = await Rides.find(query).sort({ Date: 1 });
 
     res.json({
@@ -142,6 +211,8 @@ const searchRides = async (req, res) => {
     });
   }
 };
+
+
 const InfoRides = async (req, res) => {
   try {
 
