@@ -1,62 +1,71 @@
-const mongoose = require('mongoose');
 
-const UserSchema = new mongoose.Schema({
+
+const mongoose = require("mongoose");
+
+const UserSchema = new mongoose.Schema(
+  {
     name: {
-        type: String,
-        require: true,
+      type: String,
+      required: true,
     },
+
     email: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
+      unique: true,
     },
+
     password: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
+
     phoneNo: {
-        type: Number,
-        require: true,
-
-
+      type: Number,
+      required: true,
     },
+
     profilePic: {
-        type: String,
-        default: ""
+      type: String,
+      default: "",
     },
+
+    // 🔐 Forget password fields
     resetpassword: {
-        type: String,
-        default: ""
+      type: String,
+      default: null,
     },
+
     expirepassword: {
-        type: Date,
-        default: Date.now
-
+      type: Date,
+      default: null,
     },
 
-
+    // 🚗 Optional car info (NOT required at signup)
     cardetails: {
-        carName: {
-            type: String,
-            required: true
-        },
-        carNumber: {
-            type: String,
-            required: true
-        }
-    },
-    ratingOverall: {
+      carName: {
         type: String,
-        required: true,
+        default: "",
+      },
+      carNumber: {
+        type: String,
+        default: "",
+      },
     },
-    Addseats : {
-        type :Number,
-        required : true,
-        
-    }
 
+    // ⭐ Rating
+    ratingOverall: {
+      type: Number,
+      default: 0,
+    },
 
-
-
-}, { timestamps: true });
+    // 💺 Seats
+    Addseats: {
+      type: Number,
+      default: 0,
+    },
+  },
+  { timestamps: true }
+);
 
 module.exports = mongoose.model("User", UserSchema);

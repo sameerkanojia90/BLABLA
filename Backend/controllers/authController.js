@@ -7,7 +7,7 @@ const crypto = require("crypto");
 const signup = async (req, res) => {
   try {
     const { name, email, password, phoneNo } = req.body;
-    console.log(req.body);
+    // console.log(req.body);
 
     if (!name || !email || !password || !phoneNo) {
       return res.status(400).json({
@@ -119,12 +119,16 @@ const forgetPassword = async (req, res) => {
     const { email } = req.body;
 
     if (!email) {
-      return res.json({ success: false, message: "Email required" });
+      return res.json({ 
+        success: false,
+         message: "Email required" });
     }
 
     const user = await User.findOne({ email });
     if (!user) {
-      return res.json({ success: false, message: "User not found" });
+      return res.json({ 
+        success: false, 
+        message: "User not found" });
     }
 
     const resetToken = crypto.randomBytes(20).toString("hex");
@@ -188,7 +192,8 @@ const resetPassword = async (req, res) => {
 
     await user.save();
 
-    res.json({ success: true, message: "Password reset successful" });
+    res.json({ success: true,
+       message: "Password reset successful" });
 
   } catch (error) {
     console.log("Reset Password Error:", error);
