@@ -33,7 +33,6 @@ function Rideinfo() {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  // 🔐 Auth Check
   useEffect(() => {
     fetch(`${API}/api/user/dashboard`, {
       credentials: "include",
@@ -49,7 +48,6 @@ function Rideinfo() {
       });
   }, []);
 
-  // 📦 Fetch Ride
   useEffect(() => {
     if (!id) return;
 
@@ -90,14 +88,12 @@ function Rideinfo() {
           style={{ width: 600, borderRadius: 12 }}
           hoverable
         >
-          {/* Route Section */}
           <Title level={3} style={{ textAlign: "center" }}>
             <EnvironmentOutlined /> {rideData.From} → {rideData.To}
           </Title>
 
           <Divider />
 
-          {/* Ride Info */}
           <Row gutter={16}>
             <Col span={12}>
               <Text strong>
@@ -137,14 +133,7 @@ function Rideinfo() {
 
           <Divider />
 
-          {/* <Button
-            type="primary"
-            size="large"
-            block
-            onClick={() => message.success("Ride Booked Successfully!")}
-          >
-            Book Ride
-          </Button> */}
+         
         </Card>
       </Content>
     </Layout>

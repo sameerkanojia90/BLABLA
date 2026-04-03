@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Breadcrumb, Layout, Menu, Button, theme } from "antd";
-import Searchrides from "./searchrides";
+import Searchrides from "./Searchrides";
 
 const { Header, Content, Footer } = Layout;
 
